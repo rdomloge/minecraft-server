@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meg-minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meg-minecraft
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: meg-minecraft
+        version: v1
+    spec:
+      nodeName: k8s-node-2 #always schedule to node 2   
+      containers:
+        - name: meg-minecraft
+          image: rdomloge/minecraft-spigot
+          volumeMounts: 
+            - name: meg-minecraft-data
+              mountPath: /data
+          env:
+          - name: EULA
+            value: "true"
+          - name: MEMORY
+            value: "2G"
+          - name: TYPE
+            value: "SPIGOT"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 25565
+      volumes:
+      - name: meg-minecraft-data
+        persistentVolumeClaim:
+          claimName: meg-minecraft-data

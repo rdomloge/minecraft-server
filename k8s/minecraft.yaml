@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: minecraft
+        version: v1
+    spec:
+      nodeName: k8s-node-3 #always schedule to node 3
+      containers:
+        - name: minecraft
+          image: rdomloge/minecraft-spigot
+          volumeMounts: 
+            - name: minecraft-data
+              mountPath: /data
+          env:
+          - name: EULA
+            value: "true"
+          - name: MEMORY
+            value: "2G"
+          - name: TYPE
+            value: "SPIGOT"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 25565
+            - containerPort: 25575
+      volumes:
+      - name: minecraft-data
+        persistentVolumeClaim:
+          claimName: minecraft-data
