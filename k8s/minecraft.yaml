@@ -14,7 +14,7 @@ spec:
         app: minecraft
         version: v1
     spec:
-      nodeName: k8s-node-3 #always schedule to node 3
+      nodeName: k8s-node-4 #always schedule to node 4
       containers:
         - name: minecraft
           image: rdomloge/minecraft-spigot
@@ -32,6 +32,9 @@ spec:
           ports:
             - containerPort: 25565
             - containerPort: 25575
+          resources:
+            limits:
+              cpu: "3500m"
       volumes:
       - name: minecraft-data
         persistentVolumeClaim:
