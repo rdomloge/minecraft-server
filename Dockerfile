@@ -17,7 +17,6 @@ RUN java -Xmx2048M -jar BuildTools.jar
 VOLUME ["/data"]
 #COPY server.properties /tmp/server.properties
 #COPY log4j2.xml /tmp/log4j2.xml
-WORKDIR /data
 
 ENV JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="1G" \
   TYPE=SPIGOT VERSION=LATEST FORGEVERSION=RECOMMENDED SPONGEBRANCH=STABLE SPONGEVERSION= FABRICVERSION=LATEST LEVEL=world \
@@ -26,7 +25,19 @@ ENV JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="1G" \
   REPLACE_ENV_VARIABLES="FALSE" ENV_VARIABLE_PREFIX="CFG_" \
   ENABLE_AUTOPAUSE=false AUTOPAUSE_TIMEOUT_EST=3600 AUTOPAUSE_TIMEOUT_KN=120 AUTOPAUSE_TIMEOUT_INIT=600 AUTOPAUSE_PERIOD=10
 
-COPY Client-1.3-SNAPSHOT.jar /
+COPY rcon-cli_1.4.8_linux_armv7/rcon-cli /
+
+RUN rm BuildTools.log.txt
+RUN rm -r work
+RUN rm -r /root/.m2
+RUN rm -r /apache-maven-3.6.0
+RUN rm -r Spigot
+RUN rm -r CraftBukkit
+RUN rm -r BuildData
+RUN rm BuildTools.jar
+RUN rm -r Bukkit
+
+WORKDIR /data
 
 ENTRYPOINT [ "java",  "-Xms256M", "-Xmx2048M", "-DEULA=true", "-jar", "../spigot-1.15.2.jar", "nogui"]
 
