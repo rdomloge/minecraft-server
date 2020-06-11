@@ -34,7 +34,9 @@ spec:
             - containerPort: 25575
           resources:
             limits:
-              cpu: "3500m"
+              cpu: "4"
+            requests:
+              cpu: 3000m
       volumes:
       - name: minecraft-data
         persistentVolumeClaim:
