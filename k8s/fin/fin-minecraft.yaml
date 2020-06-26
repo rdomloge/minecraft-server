@@ -14,7 +14,7 @@ spec:
         app: fin-minecraft
         version: v1
     spec:
-      nodeName: k8s-node-1 #always schedule to node 1
+      #nodeName: k8s-node-4 #always schedule to node 4
       containers:
         - name: fin-minecraft
           image: rdomloge/minecraft-spigot
@@ -31,6 +31,19 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 25565
+            - containerPort: 25575
+          resources:
+            limits:
+              cpu: "2"
+            requests:
+              cpu: 2000m
+          livenessProbe:
+            exec:
+              command:
+              - ../rcon-cli 
+              - help
+            initialDelaySeconds: 300
+            periodSeconds: 60
       volumes:
       - name: fin-minecraft-data
         persistentVolumeClaim:

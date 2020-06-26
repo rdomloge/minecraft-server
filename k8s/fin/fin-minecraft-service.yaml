@@ -8,6 +8,5 @@ spec:
     app: fin-minecraft
   ports:
     - protocol: TCP
-      port: 25565
-      nodePort: 32566
-      targetPort: 25565
+      port: 25567 # the port to expose to the world
+      targetPort: 25565 # the actual port the container is listening on
