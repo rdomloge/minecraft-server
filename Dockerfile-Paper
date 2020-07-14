@@ -6,16 +6,15 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y wget
-RUN apt-get install -y git
 
 RUN mkdir ~/minecraft
-RUN cd ~/minecraft
-RUN git clone https://github.com/PaperMC/Paper.git
-RUN cd Paper
+WORKDIR /minecraft
+RUN wget -O paper-1.15.2-build372.jar https://papermc.io/api/v1/paper/1.15.2/372/download
 
-RUN ./paper jar
+#VOLUME ["/data"]
+RUN mkdir /data
 
-VOLUME ["/data"]
+RUN echo eula=true > /data/eula.txt
 
 ENV JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="1G" \
   TYPE=SPIGOT VERSION=LATEST FORGEVERSION=RECOMMENDED SPONGEBRANCH=STABLE SPONGEVERSION= FABRICVERSION=LATEST LEVEL=world \
@@ -26,19 +25,8 @@ ENV JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="1G" \
 
 COPY rcon-cli_1.4.8_linux_armv7/rcon-cli /
 
-RUN rm BuildTools.log.txt
-RUN rm -r work
-RUN rm -r /root/.m2
-RUN rm -r /apache-maven-3.6.0
-RUN rm -r Spigot
-RUN rm -r CraftBukkit
-RUN rm -r BuildData
-RUN rm BuildTools.jar
-RUN rm -r Bukkit
-
 WORKDIR /data
-
-ENTRYPOINT [ "java",  "-Xms256M", "-Xmx2048M", "-DEULA=true", "-jar", "../spigot-1.15.2.jar", "nogui"]
 
 EXPOSE 25565 25575
 
+ENTRYPOINT [ "java",  "-Xms256M", "-Xmx2048M", "-jar", "/minecraft/paper-1.15.2-build372.jar", "nogui"]
