@@ -12,7 +12,7 @@ RUN mkdir ~/minecraft
 RUN cd ~/minecraft
 RUN wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
-RUN java -Xmx2048M -jar BuildTools.jar
+RUN java -Xmx2048M -jar BuildTools.jar --rev 1.16.1
 
 VOLUME ["/data"]
 #COPY server.properties /tmp/server.properties
@@ -39,7 +39,7 @@ RUN rm -r Bukkit
 
 WORKDIR /data
 
-ENTRYPOINT [ "java",  "-Xms256M", "-Xmx2048M", "-DEULA=true", "-jar", "../spigot-1.15.2.jar", "nogui"]
+ENTRYPOINT [ "java",  "-Xms256M", "-Xmx2048M", "-DEULA=true", "-jar", "../spigot-1.16.1.jar", "nogui"]
 
 EXPOSE 25565 25575
 
