@@ -17,7 +17,7 @@ spec:
       #nodeName: k8s-node-4 #always schedule to node 4
       containers:
         - name: fin-minecraft
-          image: rdomloge/minecraft-spigot
+          image: rdomloge/minecraft-spigot:1.16.2
           volumeMounts: 
             - name: fin-minecraft-data
               mountPath: /data
@@ -37,13 +37,13 @@ spec:
               cpu: "2"
             requests:
               cpu: 2000m
-          livenessProbe:
-            exec:
-              command:
-              - ../rcon-cli 
-              - help
-            initialDelaySeconds: 300
-            periodSeconds: 60
+              #livenessProbe:
+              #exec:
+              #command:
+              #- ../rcon-cli 
+              #- help
+              #initialDelaySeconds: 300
+              #periodSeconds: 60
       volumes:
       - name: fin-minecraft-data
         persistentVolumeClaim:
