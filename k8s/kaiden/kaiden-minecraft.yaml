@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaiden-minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kaiden-minecraft
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: kaiden-minecraft
+        version: v1
+    spec:
+      #nodeName: k8s-node-4 #always schedule to node 4
+      containers:
+        - name: kaiden-minecraft
+          image: rdomloge/minecraft-spigot:1.16.2
+          volumeMounts: 
+            - name: kaiden-minecraft-data
+              mountPath: /data
+          env:
+          - name: EULA
+            value: "true"
+          - name: MEMORY
+            value: "2G"
+          - name: TYPE
+            value: "SPIGOT"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 25565
+            - containerPort: 25575
+          resources:
+            limits:
+              cpu: "4"
+            requests:
+              cpu: 3000m
+              #livenessProbe:
+              #exec:
+              #command:
+              #- ../rcon-cli
+              #- --password
+              #- password
+              #- help
+              #initialDelaySeconds: 300
+              #periodSeconds: 60
+      volumes:
+      - name: kaiden-minecraft-data
+        persistentVolumeClaim:
+          claimName: kaiden-minecraft-data
