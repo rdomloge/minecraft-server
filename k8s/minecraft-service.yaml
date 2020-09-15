@@ -7,6 +7,15 @@ spec:
   selector:
     app: minecraft
   ports:
-    - protocol: TCP
+    - name: mc
+      protocol: TCP
       port: 25565 # the port to expose to the world
       targetPort: 25565 # the actual port the container is listening on
+    - name: debug
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+    - name: profiling
+      protocol: TCP
+      port: 9990
+      targetPort: 9990
