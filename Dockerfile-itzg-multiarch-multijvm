@@ -1,0 +1,16 @@
+FROM itzg/minecraft-server:multiarch
+
+# Enable us to build ARM images in an i386 environment
+COPY qemu-arm-static /usr/bin/qemu-arm-static
+
+RUN wget -q --no-check-certificate -O /tmp/jdk11.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.8%2B10/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.8_10.tar.gz
+#RUN wget -q --no-check-certificate -O /tmp/jdk15.tar.gz https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15%2B36/OpenJDK15U-jdk_aarch64_linux_hotspot_15_36.tar.gz
+
+
+RUN tar -C /usr/lib/jvm -xzf /tmp/jdk11.tar.gz
+#RUN tar -C /usr/lib/jvm -xzf /tmp/jdk15.tar.gz
+
+RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-11.0.8+10/bin/java 1082
+RUN update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-11.0.8+10/bin/javac 1082
+RUN update-alternatives --install /usr/bin/jshell jshell /usr/lib/jvm/jdk-11.0.8+10/bin/jshell 1082
+RUN update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-11.0.8+10/bin/jar 1082
