@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-paper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-paper
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: minecraft-paper
+        version: v1
+    spec:
+      #nodeName: k8s-node-6 #always schedule to node 6
+      containers:
+        - name: minecraft-paper
+          image: itzg/minecraft-server:multiarch
+          volumeMounts:
+            - name: minecraft-data
+              mountPath: /data
+          env:
+          - name: EULA
+            value: "TRUE"
+          - name: USE_AIKAR_FLAGS
+            value: "true"
+          - name: MEMORY
+            value: "4G"
+          - name: TYPE
+            value: "PAPER"
+          - name: PLAYER_IDLE_TIMEOUT
+            value: "0"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 25565
+            - containerPort: 25575
+            - containerPort: 8000
+            - containerPort: 9990
+          resources:
+            limits:
+              memory: "5Gi"
+              cpu: "4"
+            requests:
+              memory: "5Gi"
+              cpu: 3000m
+      volumes:
+      - name: minecraft-data
+        persistentVolumeClaim:
+          claimName: minecraft-data
