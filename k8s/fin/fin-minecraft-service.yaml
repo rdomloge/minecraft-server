@@ -4,8 +4,11 @@ metadata:
   name: fin-minecraft-service
 spec:
   type: LoadBalancer
+  externalIPs:
+    - 10.0.0.12
+  loadBalancerIP: 10.0.0.12
   selector:
-    app: fin-minecraft
+    app: fin-minecraft-paper
   ports:
     - protocol: TCP
       port: 25567 # the port to expose to the world
