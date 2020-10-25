@@ -4,6 +4,9 @@ metadata:
   name: meg-minecraft-service
 spec:
   type: LoadBalancer
+  externalIPs:
+    - 10.0.0.12
+  loadBalancerIP: 10.0.0.12
   selector:
     app: meg-minecraft
   ports:
