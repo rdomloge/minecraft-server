@@ -1,49 +1,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fin-minecraft
+  name: fin-minecraft-paper
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fin-minecraft
+      app: fin-minecraft-paper
       version: v1
   template:
     metadata:
       labels:
-        app: fin-minecraft
+        app: fin-minecraft-paper
         version: v1
     spec:
-      #nodeName: k8s-node-4 #always schedule to node 4
+      #nodeName: k8s-node-6 #always schedule to node 6
       containers:
-        - name: fin-minecraft
-          image: rdomloge/minecraft-spigot:1.16.2
-          volumeMounts: 
+        - name: fin-minecraft-paper
+          image: itzg/minecraft-server:multiarch
+          volumeMounts:
             - name: fin-minecraft-data
               mountPath: /data
           env:
           - name: EULA
+            value: "TRUE"
+          - name: USE_AIKAR_FLAGS
             value: "true"
           - name: MEMORY
-            value: "2G"
+            value: "4G"
           - name: TYPE
-            value: "SPIGOT"
+            value: "PAPER"
+          - name: PLAYER_IDLE_TIMEOUT
+            value: "0"
           imagePullPolicy: Always
           ports:
             - containerPort: 25565
             - containerPort: 25575
+            - containerPort: 8000
+            - containerPort: 9990
           resources:
             limits:
-              cpu: "2"
+              memory: "5Gi"
+              cpu: "4"
             requests:
-              cpu: 2000m
-              #livenessProbe:
-              #exec:
-              #command:
-              #- ../rcon-cli 
-              #- help
-              #initialDelaySeconds: 300
-              #periodSeconds: 60
+              memory: "5Gi"
+              cpu: 2750m
       volumes:
       - name: fin-minecraft-data
         persistentVolumeClaim:
