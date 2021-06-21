@@ -1,6 +1,0 @@
-FROM itzg/minecraft-server:multiarch
-
-# Enable us to build ARM images in an i386 environment
-COPY qemu-arm-static /usr/bin/qemu-arm-static
-
-RUN apt update && apt install -y default-jdk

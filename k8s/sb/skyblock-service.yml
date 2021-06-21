@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: meg-minecraft-service
-  namespace: meg
+  name: skyblock-service
+  namespace: skyblock
 spec:
   type: LoadBalancer
   externalIPs:
     - 10.0.0.12
   loadBalancerIP: 10.0.0.12
   selector:
-    app: meg-minecraft
+    app: skyblock
   ports:
     - protocol: TCP
-      port: 25566 # the port to expose to the world
+      port: 25577 # the port to expose to the world
       targetPort: 25565 # the actual port the container is listening on

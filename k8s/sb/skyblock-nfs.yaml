@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: meg-minecraft-nfs
-  namespace: meg
+  namespace: skyblock
+  name: skyblock-nfs
 spec:
   capacity:
     storage: 10Gi
@@ -11,4 +11,4 @@ spec:
   - ReadWriteOnce
   nfs:
     server: 10.0.0.60
-    path: "/volume1/meg-minecraft"
+    path: "/volume1/mc-skyblock"

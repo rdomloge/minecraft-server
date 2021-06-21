@@ -1,8 +1,8 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: meg-minecraft-data
-  namespace: meg
+  name: skyblock-data
+  namespace: skyblock
 spec:
   accessModes:
   - ReadWriteOnce

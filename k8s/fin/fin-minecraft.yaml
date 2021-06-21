@@ -1,13 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: fin-minecraft-paper
+  namespace: fin
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: fin-minecraft-paper
       version: v1
+  serviceName: fin-minecraft-service
   template:
     metadata:
       labels:
@@ -17,7 +19,22 @@ spec:
       #nodeName: k8s-node-6 #always schedule to node 6
       containers:
         - name: fin-minecraft-paper
-          image: itzg/minecraft-server:multiarch
+          image: itzg/minecraft-server:multiarch-latest
+          livenessProbe:
+            exec:
+              command:
+              - rcon-cli
+              - list
+            periodSeconds: 60
+          startupProbe:
+            exec:
+              command:
+              - grep
+              - 'Timings Reset'
+              - logs/latest.log
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 30
           volumeMounts:
             - name: fin-minecraft-data
               mountPath: /data
@@ -27,7 +44,7 @@ spec:
           - name: USE_AIKAR_FLAGS
             value: "true"
           - name: MEMORY
-            value: "4G"
+            value: "3G"
           - name: TYPE
             value: "PAPER"
           - name: PLAYER_IDLE_TIMEOUT
@@ -40,10 +57,10 @@ spec:
             - containerPort: 9990
           resources:
             limits:
-              memory: "5Gi"
+              memory: "4Gi"
               cpu: "4"
             requests:
-              memory: "5Gi"
+              memory: "4Gi"
               cpu: 2750m
       volumes:
       - name: fin-minecraft-data

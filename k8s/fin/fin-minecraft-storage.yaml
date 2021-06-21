@@ -2,6 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: fin-minecraft-data
+  namespace: fin
 spec:
   accessModes:
   - ReadWriteOnce

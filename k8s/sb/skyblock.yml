@@ -1,41 +1,26 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: meg-minecraft-paper
-  namespace: meg
+  name: skyblock
+  namespace: skyblock
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: meg-minecraft
+      app: skyblock
       version: v1
-  serviceName: "meg-minecraft-service"
   template:
     metadata:
       labels:
-        app: meg-minecraft
+        app: skyblock
         version: v1
     spec:
       #nodeName: k8s-node-6 #always schedule to node 6
       containers:
-        - name: meg-minecraft
+        - name: skyblock
           image: itzg/minecraft-server:multiarch-latest
-          livenessProbe:
-            exec:
-              command:
-              - rcon-cli
-              - list
-          startupProbe:
-            exec:
-              command:
-              - grep
-              - 'Timings Reset'
-              - logs/latest.log
-            initialDelaySeconds: 30
-            periodSeconds: 5
-            failureThreshold: 30
           volumeMounts:
-            - name: meg-minecraft-data
+            - name: skyblock-data
               mountPath: /data
           env:
           - name: EULA
@@ -43,9 +28,9 @@ spec:
           - name: USE_AIKAR_FLAGS
             value: "true"
           - name: MEMORY
-            value: "3G"
+            value: "4G"
           - name: TYPE
-            value: "PAPER"
+            value: "SPIGOT"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           imagePullPolicy: Always
@@ -56,12 +41,12 @@ spec:
             - containerPort: 9990
           resources:
             limits:
-              memory: "4Gi"
+              memory: "5Gi"
               cpu: "4"
             requests:
-              memory: "4Gi"
+              memory: "5Gi"
               cpu: 2750m
       volumes:
-      - name: meg-minecraft-data
+      - name: skyblock-data
         persistentVolumeClaim:
-          claimName: meg-minecraft-data
+          claimName: skyblock-data
