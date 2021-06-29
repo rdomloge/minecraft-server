@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: skyblock
   namespace: skyblock
@@ -9,6 +9,7 @@ spec:
     matchLabels:
       app: skyblock
       version: v1
+  serviceName: skyblock
   template:
     metadata:
       labels:
