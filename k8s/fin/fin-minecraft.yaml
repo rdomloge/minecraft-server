@@ -19,13 +19,12 @@ spec:
       #nodeName: k8s-node-6 #always schedule to node 6
       containers:
         - name: fin-minecraft-paper
-          image: itzg/minecraft-server:multiarch-latest
+          image: itzg/minecraft-server:latest
           livenessProbe:
             exec:
               command:
               - rcon-cli
               - list
-            periodSeconds: 60
           startupProbe:
             exec:
               command:
