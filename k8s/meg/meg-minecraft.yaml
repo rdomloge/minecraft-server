@@ -29,10 +29,10 @@ spec:
             exec:
               command:
               - grep
-              - 'Timings Reset'
+              - 'For help, type "help"'
               - logs/latest.log
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 180
+            periodSeconds: 20
             failureThreshold: 30
           volumeMounts:
             - name: meg-minecraft-data
@@ -45,7 +45,7 @@ spec:
           - name: MEMORY
             value: "3G"
           - name: TYPE
-            value: "PAPER"
+            value: "FORGE"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           imagePullPolicy: Always

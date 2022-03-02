@@ -30,10 +30,10 @@ spec:
             exec:
               command:
               - grep
-              - 'Timings Reset'
+              - 'RCON running on'
               - logs/latest.log
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 120
+            periodSeconds: 30
             failureThreshold: 30
           volumeMounts:
             - name: minecraft-data
@@ -46,9 +46,11 @@ spec:
           - name: MEMORY
             value: "3500M"
           - name: TYPE
-            value: "PAPER"
+            value: "FORGE"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
+          - name: VERSION
+            value: "1.18.1"
           imagePullPolicy: Always
           ports:
             - containerPort: 25565
