@@ -30,10 +30,10 @@ spec:
             exec:
               command:
                 - grep
-                - 'Timings Reset'
+                - 'For help, type "help"'
                 - logs/latest.log
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 840
+            periodSeconds: 20
             failureThreshold: 30
           volumeMounts:
             - name: skyblock-data
@@ -46,7 +46,11 @@ spec:
           - name: MEMORY
             value: "4G"
           - name: TYPE
-            value: "PAPER"
+            value: "FORGE"
+          - name: VERSION
+            value: "1.18.1"
+          - name: FORGEVERSION
+            value: "39.1.2"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           imagePullPolicy: Always
