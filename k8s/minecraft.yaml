@@ -19,7 +19,7 @@ spec:
       #nodeName: k8s-node-6 #always schedule to node 6
       containers:
         - name: minecraft
-          image: itzg/minecraft-server:latest
+          image: itzg/minecraft-server:java8-multiarch
           livenessProbe:
             exec:
               command:
@@ -30,10 +30,10 @@ spec:
             exec:
               command:
               - grep
-              - 'RCON running on'
+              - 'For help, type "help"'
               - logs/latest.log
-            initialDelaySeconds: 120
-            periodSeconds: 30
+            initialDelaySeconds: 300
+            periodSeconds: 10
             failureThreshold: 30
           volumeMounts:
             - name: minecraft-data
@@ -44,13 +44,21 @@ spec:
           - name: USE_AIKAR_FLAGS
             value: "true"
           - name: MEMORY
-            value: "3500M"
+            value: "4500M"
           - name: TYPE
             value: "FORGE"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           - name: VERSION
-            value: "1.18.1"
+            value: "1.12.2"
+          - name: FORGEVERSION
+            value: "14.23.5.2860"
+          - name: DIFFICULTY
+            value: "hard"
+          - name: JVM_DD_OPTS
+            value: "fml.readTimeout=60"
+          - name: JVM_XX_OTPS
+            value: "-XX:MaxGCPauseMillis=50"
           imagePullPolicy: Always
           ports:
             - containerPort: 25565
@@ -59,10 +67,10 @@ spec:
             - containerPort: 9990
           resources:
             limits:
-              memory: "4Gi"
+              memory: "6500Mi"
               #cpu: "4" commented out so that there is no limit
             requests:
-              memory: "4Gi"
+              memory: "6500Mi"
               cpu: 2750m
       volumes:
       - name: minecraft-data
