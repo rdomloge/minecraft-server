@@ -31,8 +31,8 @@ spec:
               - grep
               - 'RCON running on'
               - logs/latest.log
-            initialDelaySeconds: 180
-            periodSeconds: 30
+            initialDelaySeconds: 120
+            periodSeconds: 10
             failureThreshold: 30
           volumeMounts:
             - name: fin-minecraft-data
@@ -45,7 +45,7 @@ spec:
           - name: MEMORY
             value: "3G"
           - name: TYPE
-            value: "FORGE"
+            value: "PAPER"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           imagePullPolicy: Always
