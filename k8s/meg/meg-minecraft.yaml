@@ -19,7 +19,7 @@ spec:
       #nodeName: k8s-node-6 #always schedule to node 6
       containers:
         - name: meg-minecraft
-          image: itzg/minecraft-server:latest
+          image: itzg/minecraft-server:java17
           livenessProbe:
             exec:
               command:
@@ -46,6 +46,10 @@ spec:
             value: "3G"
           - name: TYPE
             value: "FORGE"
+          - name: VERSION
+            value: "1.18.2"
+          - name: FORGEVERSION
+            value: "40.1.68"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           imagePullPolicy: Always
