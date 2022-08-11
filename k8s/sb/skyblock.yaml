@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: skyblock
+  namespace: skyblock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skyblock
+      version: v1
+  serviceName: skyblock
+  template:
+    metadata:
+      labels:
+        app: skyblock
+        version: v1
+    spec:
+      #nodeName: k8s-node-6 #always schedule to node 6
+      containers:
+        - name: skyblock
+          image: itzg/minecraft-server:latest
+          livenessProbe:
+            exec:
+              command:
+                - rcon-cli
+                - list
+            periodSeconds: 60
+          startupProbe:
+            exec:
+              command:
+                - grep
+                - 'For help, type "help"'
+                - logs/latest.log
+            initialDelaySeconds: 840
+            periodSeconds: 20
+            failureThreshold: 30
+          volumeMounts:
+            - name: skyblock-data
+              mountPath: /data
+          env:
+          - name: EULA
+            value: "TRUE"
+          - name: USE_AIKAR_FLAGS
+            value: "true"
+          - name: MEMORY
+            value: "4G"
+          - name: TYPE
+            value: "FORGE"
+          - name: VERSION
+            value: "1.18.1"
+          - name: FORGEVERSION
+            value: "39.1.2"
+          - name: PLAYER_IDLE_TIMEOUT
+            value: "0"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 25565
+            - containerPort: 25575
+            - containerPort: 8000
+            - containerPort: 9990
+          resources:
+            limits:
+              memory: "5Gi"
+              cpu: "4"
+            requests:
+              memory: "5Gi"
+              cpu: 2750m
+      volumes:
+      - name: skyblock-data
+        persistentVolumeClaim:
+          claimName: skyblock-data
