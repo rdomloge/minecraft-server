@@ -25,13 +25,15 @@ spec:
               command:
               - rcon-cli
               - list
+            periodSeconds: 60
+            failureThreshold: 3
           startupProbe:
             exec:
               command:
               - grep
               - 'For help, type "help"'
               - logs/latest.log
-            initialDelaySeconds: 180
+            initialDelaySeconds: 840
             periodSeconds: 20
             failureThreshold: 30
           volumeMounts:
@@ -61,10 +63,9 @@ spec:
           resources:
             limits:
               memory: "4Gi"
-              cpu: "4"
             requests:
               memory: "4Gi"
-              cpu: 2750m
+              cpu: 1000m
       volumes:
       - name: meg-minecraft-data
         persistentVolumeClaim:
