@@ -33,7 +33,7 @@ spec:
               - grep
               - 'For help, type "help"'
               - logs/latest.log
-            initialDelaySeconds: 840
+            initialDelaySeconds: 120
             periodSeconds: 20
             failureThreshold: 30
           volumeMounts:
@@ -46,12 +46,6 @@ spec:
             value: "true"
           - name: MEMORY
             value: "3G"
-          - name: TYPE
-            value: "FORGE"
-          - name: VERSION
-            value: "1.18.2"
-          - name: FORGEVERSION
-            value: "40.1.68"
           - name: PLAYER_IDLE_TIMEOUT
             value: "0"
           imagePullPolicy: Always
